@@ -18,8 +18,8 @@ https://medium.com/@zhanwenchen/install-cuda-and-cudnn-for-tensorflow-gpu-on-ubu
 
 ## The sample of the position of the ball (finaltestvideo.mp4)
 
-![](csv/graph/x_value_graph.png)
-![](csv/graph/y_value_graph.png)
+![](./csv/graph/x_value_graph.png)
+![](./csv/graph/y_value_graph.png)
 
 <!-- ## How to train a new TrackNet I weight?
 1. Create heatmap as Ground Truth, and save heatmap as JPG file
