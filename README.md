@@ -1,4 +1,5 @@
 # TrackNet: Tennis Ball Tracking from Broadcast Video by Deep Learning Networks
+Refer the site below for more information
 https://nol.cs.nctu.edu.tw:234/open-source/TrackNet/tree/master
 
 ## First, you have to install cuda, cudnn and tensorflow, tutorial:
