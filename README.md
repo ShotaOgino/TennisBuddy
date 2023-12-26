@@ -16,8 +16,12 @@ https://medium.com/@zhanwenchen/install-cuda-and-cudnn-for-tensorflow-gpu-on-ubu
 * sudo pip install h5py
 * sudo apt-get install graphviz
 
+## The sample of the position of the ball (finaltestvideo.mp4)
 
-## How to train a new TrackNet I weight?
+![](csv/graph/x_value_graph.png)
+![](csv/graph/y_value_graph.png)
+
+<!-- ## How to train a new TrackNet I weight?
 1. Create heatmap as Ground Truth, and save heatmap as JPG file
 	Code be save in TrackNet_Python.ipynb (first part), you may need to change the folder path in python code
 2. The training file name and testing file name of TrackNet must be output as csv file
@@ -110,7 +114,7 @@ https://medium.com/@zhanwenchen/install-cuda-and-cudnn-for-tensorflow-gpu-on-ubu
 			--input_height: Input height be resize as 360 in this work
 			--input_width: Input width be resize as 360 in this work
 			--output_height: resize the heatmap height, output height be set as 720 in this work
-			-output_width: resize the heatmap width,output width be set as 1280 in this work
+			-output_width: resize the heatmap width,output width be set as 1280 in this work -->
 
 
 ## How to use TrackNet predict video?
