@@ -16,8 +16,10 @@ https://medium.com/@zhanwenchen/install-cuda-and-cudnn-for-tensorflow-gpu-on-ubu
 * sudo pip install h5py
 * sudo apt-get install graphviz
 
-## The sample of the position of the ball (finaltestvideo.mp4)
+## The sample video(finaltestvideo.mp4)
+![](./input/finaltestvideo.mp4)
 
+## The sample of the position of the ball (finaltestvideo.mp4)
 ![](./csv/graph/x_value_graph.png)
 ![](./csv/graph/y_value_graph.png)
 
