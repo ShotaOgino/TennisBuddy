@@ -17,7 +17,7 @@ https://medium.com/@zhanwenchen/install-cuda-and-cudnn-for-tensorflow-gpu-on-ubu
 * sudo apt-get install graphviz
 
 ## The sample video(finaltestvideo.mp4)
-![](./input/finaltestvideo.mp4)
+[![finaltestvideo.mp4]](https://www.youtube.com/watch?v=f2TpUUwbaiU)
 
 ## The sample of the position of the ball (finaltestvideo.mp4)
 ![](./csv/graph/x_value_graph.png)
