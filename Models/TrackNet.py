@@ -15,7 +15,8 @@ def TrackNet( n_classes ,  input_height, input_width ): # input_height = 360, in
 	x = ( BatchNormalization())(x)
 
 	#layer3
-	x = MaxPooling2D((2, 2), strides=(2, 2), data_format='channels_first' )(x)
+	#edited the data_format from chaneels_first to channel_last 
+	x = MaxPooling2D((2, 2), strides=(2, 2), data_format='channels_last' )(x)
 
 	#layer4
 	x = Conv2D(128, (3, 3), kernel_initializer='random_uniform', padding='same', data_format='channels_first' )(x)
@@ -28,7 +29,7 @@ def TrackNet( n_classes ,  input_height, input_width ): # input_height = 360, in
 	x = ( BatchNormalization())(x)
 
 	#layer6
-	x = MaxPooling2D((2, 2), strides=(2, 2), data_format='channels_first' )(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), data_format='channels_last' )(x)
 
 	#layer7
 	x = Conv2D(256, (3, 3), kernel_initializer='random_uniform', padding='same', data_format='channels_first' )(x)
@@ -46,7 +47,7 @@ def TrackNet( n_classes ,  input_height, input_width ): # input_height = 360, in
 	x = ( BatchNormalization())(x)
 
 	#layer10
-	x = MaxPooling2D((2, 2), strides=(2, 2), data_format='channels_first' )(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), data_format='channels_last' )(x)
 
 	#layer11
 	x = ( Conv2D(512, (3, 3), kernel_initializer='random_uniform', padding='same', data_format='channels_first'))(x)
@@ -136,7 +137,3 @@ def TrackNet( n_classes ,  input_height, input_width ): # input_height = 360, in
 	model.summary()
 
 	return model
-
-
-
-
