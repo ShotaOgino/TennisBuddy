@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import filedialog
 import os
-import numpy as np
 
 # Tkinterルートウィンドウの初期化
 root = tk.Tk()
@@ -28,10 +27,22 @@ y_values = []
 # CSVファイルを読み込み、データをリストに格納
 with open(csv_file_path, mode='r') as csv_file:
     csv_reader = csv.DictReader(csv_file)
+    prev_x = None
+    prev_y = None
     for row in csv_reader:
         frame_numbers.append(int(row['Frame']))
-        x_values.append(int(row['X']))
-        y_values.append(int(row['Y']))
+        # 空の文字列の場合は None を追加
+        x = int(row['X']) if row['X'] else None
+        y = int(row['Y']) if row['Y'] else None
+        # 前のボールの位置と比べて100以上離れていたらそのポイントはNoneとする
+        if prev_x is not None and x is not None and abs(prev_x - x) >= 100:
+            x = None
+        if prev_y is not None and y is not None and abs(prev_y - y) >= 100:
+            y = None
+        x_values.append(x)
+        y_values.append(y)
+        prev_x = x if x is not None else None
+        prev_y = y if y is not None else None
 
 # 保存先ディレクトリのパス
 save_dir = os.path.join('./csv/graph/', base_name)
@@ -40,31 +51,29 @@ save_dir = os.path.join('./csv/graph/', base_name)
 if not os.path.exists(save_dir):
     os.makedirs(save_dir)
 
-# フレーム番号に基づいてデータを分割
-frame_bins = np.arange(0, max(frame_numbers) + 101, 100)
-
-# フレーム番号ごとにデータを分割してグラフを生成
-for i in range(len(frame_bins) - 1):
-    start_frame = frame_bins[i]
-    end_frame = frame_bins[i+1] - 1
-    idx = np.where((frame_numbers >= start_frame) & (frame_numbers < end_frame))
+# 100フレームごとにデータを分割してグラフを生成
+for i in range(0, len(frame_numbers), 100):
+    # 分割するデータの範囲を設定
+    end = i + 100
+    if end > len(frame_numbers):
+        end = len(frame_numbers)
 
     # グラフ1: X値
     plt.figure()
-    plt.plot(np.array(frame_numbers)[idx], np.array(x_values)[idx], marker='o')
+    plt.plot(frame_numbers[i:end], x_values[i:end], marker='o')
     plt.xlabel('Frame Number')
     plt.ylabel('X Value')
-    plt.title(f'X Value vs Frame Number ({start_frame+1}-{end_frame})')
-    x_value_graph_filename = os.path.join(save_dir, f'x_value_{start_frame+1}_{end_frame}.png')
+    plt.title(f'X Value vs Frame Number ({i+1}-{end})')
+    x_value_graph_filename = os.path.join(save_dir, f'x_value_{i+1}_{end}.png')
     plt.savefig(x_value_graph_filename)
     plt.close()
 
     # グラフ2: Y値
     plt.figure()
-    plt.plot(np.array(frame_numbers)[idx], np.array(y_values)[idx], marker='o', color='green')
+    plt.plot(frame_numbers[i:end], y_values[i:end], marker='o', color='green')
     plt.xlabel('Frame Number')
     plt.ylabel('Y Value')
-    plt.title(f'Y Value vs Frame Number ({start_frame+1}-{end_frame})')
-    y_value_graph_filename = os.path.join(save_dir, f'y_value_{start_frame+1}_{end_frame}.png')
+    plt.title(f'Y Value vs Frame Number ({i+1}-{end})')
+    y_value_graph_filename = os.path.join(save_dir, f'y_value_{i+1}_{end}.png')
     plt.savefig(y_value_graph_filename)
     plt.close()
