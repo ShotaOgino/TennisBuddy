@@ -30,8 +30,8 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
   // Minioクライアントの初期化（安全な方法で認証情報を扱ってください）
   final minio = Minio(
     endPoint: 's3-ap-northeast-1.amazonaws.com',
-    accessKey: 'AKIA6GBMFUPGZC7HYL73', // 実際のキーを直接コードに含めないでください
-    secretKey: '6De1SSns4iwEhyI5R1Wskb4yR3ZmyWxKnnisI5DD', // 実際のキーを直接コードに含めないでください
+    accessKey: '', // 実際のキーを直接コードに含めないでください
+    secretKey: '', // 実際のキーを直接コードに含めないでください
   );
 
   Future<void> _pickFile() async {
