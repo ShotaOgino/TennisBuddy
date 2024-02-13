@@ -2,8 +2,8 @@ import boto3
 import os
 from tqdm import tqdm
 
-aws_access_key_id = 'AKIA6GBMFUPGZC7HYL73'
-aws_secret_access_key = '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'
+aws_access_key_id = ''
+aws_secret_access_key = ''
 
 s3 = boto3.client("s3", aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
 
