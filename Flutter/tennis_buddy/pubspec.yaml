@@ -1,0 +1,32 @@
+name: tennis_buddy
+description: A new Flutter project.
+publish_to: 'none'  # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.1
+  state_notifier: ^0.7.2+1
+  flutter_state_notifier: ^0.7.1
+  freezed_annotation: ^1.1.0
+  image_picker: ^0.8.5  # 既存の依存関係
+  flutter_dotenv: ^5.0.2
+  uuid: ^3.0.6
+  file_picker: ^4.0.0  # ファイル選択用のパッケージを追加
+  minio:  # Minioクライアント用のパッケージを追加（正確なバージョンを指定してください）
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.1
+  build_runner: ^2.1.7
+  freezed: ^1.1.1
+  json_serializable: ^6.1.5
+
+flutter:
+  uses-material-design: true

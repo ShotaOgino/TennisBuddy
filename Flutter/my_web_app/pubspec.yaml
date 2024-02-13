@@ -1,0 +1,28 @@
+name: my_web_app
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.1 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  file_picker: ^4.0.0
+  http: ^0.13.3
+  video_player: 
+  minio_new: 
+  cupertino_icons: ^1.0.2
+
+dependency_overrides:
+  xml: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
