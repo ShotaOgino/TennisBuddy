@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:minio_new/minio.dart';
 import 'dart:typed_data';
+import 'dart:convert';
+
+final configFile = File('config.json');
+final config = json.decode(configFile.readAsStringSync());
 
 class ImageFromS3 extends StatelessWidget {
   ImageFromS3({super.key});
@@ -8,8 +12,8 @@ class ImageFromS3 extends StatelessWidget {
   final minio = Minio(
     endPoint: 's3-ap-northeast-1.amazonaws.com',
     region: 'ap-northeast-1',
-    accessKey: 'AKIA6GBMFUPGZC7HYL73',
-    secretKey: '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',
+    accessKey: config['accessKey'],
+    secretKey: config['secretKey'],
   );
 
   Future<Image> getImage() async {
