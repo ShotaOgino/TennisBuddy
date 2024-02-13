@@ -154,15 +154,21 @@ while(True):
 			#pop x,y from queue
 			q.pop()    
 		else:
+<<<<<<< HEAD
 			# ボールが検出されなかった場合、Noneを書き込む
 			csv_writer.writerow([currentFrame, None, None])
+=======
+>>>>>>> 5b0d02373431f9933f490436a69ddc86b22e1e01
 			#push None to queue
 			q.appendleft(None)
 			#pop x,y from queue
 			q.pop()
 	else:
+<<<<<<< HEAD
 		# ボールが検出されなかった場合、Noneを書き込む
 		csv_writer.writerow([currentFrame, None, None])
+=======
+>>>>>>> 5b0d02373431f9933f490436a69ddc86b22e1e01
 		#push None to queue
 		q.appendleft(None)
 		#pop x,y from queue
@@ -193,3 +199,7 @@ csv_file.close()
 video.release()
 output_video.release()
 print("finish")
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5b0d02373431f9933f490436a69ddc86b22e1e01
