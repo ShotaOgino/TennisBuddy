@@ -22,8 +22,8 @@ import 'package:logger/logger.dart';
 final minio = Minio(
         endPoint: 's3-ap-northeast-1.amazonaws.com',
         region: 'ap-northeast-1',
-        accessKey: 'AKIA6GBMFUPG6RC5UAIH',
-        secretKey: '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',
+        accessKey: '',
+        secretKey: '',
       );
 
 var logger = Logger();
@@ -117,7 +117,9 @@ class _UploadFileViewState extends State<UploadFileView> {
 
     if (result != null && result.files.isNotEmpty) {
       selectedFile.value = result.files.single;
-      uploadData = ;
+      uploadData = UploadData(url: "s3-ap-northeast-1.amazonaws.com",
+      fields: "key":
+      );
     }
   }
 
