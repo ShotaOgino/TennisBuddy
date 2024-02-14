@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
@@ -15,7 +14,19 @@ import 'package:upload_with_presigned_url/upload_data_request_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 's3_class_path.dart';
 
-import 'dart:typed_data'; // Uint8Listを使用するために必要
+
+import 'package:minio_new/minio.dart';
+
+import 'package:logger/logger.dart';
+
+final minio = Minio(
+        endPoint: 's3-ap-northeast-1.amazonaws.com',
+        region: 'ap-northeast-1',
+        accessKey: 'AKIA6GBMFUPG6RC5UAIH',
+        secretKey: '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',
+      );
+
+var logger = Logger();
 
 class UploadFileView extends StatefulWidget {
   const UploadFileView({Key? key}) : super(key: key);
@@ -33,11 +44,11 @@ class _UploadFileViewState extends State<UploadFileView> {
   @override
   void initState() {
     super.initState();
-    /* loadUploadData(); */
+    loadUploadData();
     dotenv.load(); // 環境変数を読み込む
   }
 
-  /* Future<void> loadUploadData() async {
+  Future<void> loadUploadData() async {
     final jsonString = await rootBundle.loadString('../assets/config/upload_config.json');
     final Map<String, dynamic> jsonMap = json.decode(jsonString);
     setState(() {
@@ -46,34 +57,43 @@ class _UploadFileViewState extends State<UploadFileView> {
         fields: Map<String, String>.from(jsonMap['fields']),
       );
     });
-  } */
+  }
 
   Future<void> uploadSelectedFile() async {
-    if (uploadData == null || selectedFile.value == null) return;
+    if (uploadData == null || selectedFile.value == null) {
+      logger.d("hello");
+      return;
+    }
 
     final (selectedFileBytes, selectedFileName) =
         await getFileBytesAndName(selectedFile.value);
 
     try {
-      final minio = S3.instance.getMinio();
+      
+      //final minio = S3.instance.getMinio();
       final bucketName = dotenv.env['BUCKET_NAME']!;
+      //log(String(bucketName));
 
       // List<int>をStream<Uint8List>に変換
-      final stream = Stream.value(Uint8List.fromList(selectedFileBytes));
-
+      /* final stream = Stream<Uint8List> imageBytes = Stream.value(bucketName.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+ */
       // Minioクライアントを使用してファイルをアップロード
+
       await minio.putObject(
-        bucketName,
+        /* bucketName,
         selectedFileName,
-        stream,
-/*       selectedFileBytes.length, // putObjectメソッドにはファイルサイズも必要です */
+        stream, */
+        'swingtest',
+        selectedFileName,
+        Stream<Uint8List>.value(Uint8List(1024)), 
+        onProgress: (bytes) => logger.d('$bytes uploaded'),
       );
 
       // アップロード成功時の処理（例：成功メッセージの表示など）
-      print('Upload successful');
+      debugPrint('Upload successful');
     } catch (e) {
       // エラー処理（例：エラーメッセージの表示など）
-      print('Upload failed: $e');
+      debugPrint('Upload failed: $e');
     }
   }
 
@@ -102,6 +122,7 @@ class _UploadFileViewState extends State<UploadFileView> {
 
     if (result != null && result.files.isNotEmpty) {
       selectedFile.value = result.files.single;
+      uploadData = ;
     }
   }
 
@@ -195,13 +216,17 @@ class _UploadFileViewState extends State<UploadFileView> {
                     valueListenable: selectedFile,
                     builder: (context, file, _) {
                       return ElevatedButton(
-                        onPressed: file == null ? null : () async {
+                        onPressed: file == null
+                            ? null
+                            : () async {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar( content: Text('Uploading file...')));
+                                    const SnackBar(
+                                        content: Text('Uploading file...')));
                                 try {
                                   await uploadSelectedFile();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar( content: Text('Upload successful')));
+                                      const SnackBar(
+                                          content: Text('Upload successful')));
                                 } catch (e) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

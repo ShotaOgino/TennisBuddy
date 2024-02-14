@@ -42,6 +42,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   #minio: ^3.0.0
   minio_new: ^1.0.1
+  logger:
 
 dev_dependencies:
   flutter_test:
