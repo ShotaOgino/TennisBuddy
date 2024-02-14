@@ -72,17 +72,12 @@ class _UploadFileViewState extends State<UploadFileView> {
       
       //final minio = S3.instance.getMinio();
       final bucketName = dotenv.env['BUCKET_NAME']!;
-      //log(String(bucketName));
 
       // List<int>をStream<Uint8List>に変換
       /* final stream = Stream<Uint8List> imageBytes = Stream.value(bucketName.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
  */
-      // Minioクライアントを使用してファイルをアップロード
 
       await minio.putObject(
-        /* bucketName,
-        selectedFileName,
-        stream, */
         'swingtest',
         selectedFileName,
         Stream<Uint8List>.value(Uint8List(1024)), 
