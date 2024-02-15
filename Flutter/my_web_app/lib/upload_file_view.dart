@@ -14,17 +14,16 @@ import 'package:upload_with_presigned_url/upload_data_request_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 's3_class_path.dart';
 
-
 import 'package:minio_new/minio.dart';
 
 import 'package:logger/logger.dart';
 
 final minio = Minio(
-        endPoint: 's3-ap-northeast-1.amazonaws.com',
-        region: 'ap-northeast-1',
-        accessKey: '',
-        secretKey: '',
-      );
+  endPoint: 's3-ap-northeast-1.amazonaws.com',
+  region: 'ap-northeast-1',
+  accessKey: 'AKIA6GBMFUPG6RC5UAIH',
+  secretKey: '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',
+);
 
 var logger = Logger();
 
@@ -44,12 +43,13 @@ class _UploadFileViewState extends State<UploadFileView> {
   @override
   void initState() {
     super.initState();
-    loadUploadData();
+    /* loadUploadData(); */
     dotenv.load(); // 環境変数を読み込む
   }
 
-  Future<void> loadUploadData() async {
-    final jsonString = await rootBundle.loadString('../assets/config/upload_config.json');
+  /* Future<void> loadUploadData() async {
+    final jsonString =
+        await rootBundle.loadString('../assets/config/upload_config.json');
     final Map<String, dynamic> jsonMap = json.decode(jsonString);
     setState(() {
       uploadData = UploadData(
@@ -57,11 +57,14 @@ class _UploadFileViewState extends State<UploadFileView> {
         fields: Map<String, String>.from(jsonMap['fields']),
       );
     });
-  }
+  } */
 
   Future<void> uploadSelectedFile() async {
-    if (uploadData == null || selectedFile.value == null) {
+    /* if (uploadData == null || selectedFile.value == null) {
       logger.d("hello");
+      return;
+    } */
+    if (selectedFile.value == null) {
       return;
     }
 
@@ -69,19 +72,23 @@ class _UploadFileViewState extends State<UploadFileView> {
         await getFileBytesAndName(selectedFile.value);
 
     try {
-      
       //final minio = S3.instance.getMinio();
-      final bucketName = dotenv.env['BUCKET_NAME']!;
+      //final bucketName = dotenv.env['BUCKET_NAME']!;
 
       // List<int>をStream<Uint8List>に変換
       /* final stream = Stream<Uint8List> imageBytes = Stream.value(bucketName.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
  */
+      // ファイルのバイトデータからStreamを作成
+      final stream = Stream.value(Uint8List.fromList(selectedFileBytes));
 
       await minio.putObject(
         'swingtest',
         selectedFileName,
-        Stream<Uint8List>.value(Uint8List(1024)), 
-        onProgress: (bytes) => logger.d('$bytes uploaded'),
+        /* Stream<Uint8List>.value(Uint8List(1024)),
+        onProgress: (bytes) => logger.d('$bytes uploaded'), */
+        stream,
+      size:selectedFileBytes.length, // ストリームの長さを指定
+      onProgress: (bytes) => logger.d('$bytes uploaded'),
       );
 
       // アップロード成功時の処理（例：成功メッセージの表示など）
@@ -117,9 +124,9 @@ class _UploadFileViewState extends State<UploadFileView> {
 
     if (result != null && result.files.isNotEmpty) {
       selectedFile.value = result.files.single;
-      uploadData = UploadData(url: "s3-ap-northeast-1.amazonaws.com",
-      fields: "key":
-      );
+
+      ///Sample data for uploadData, replace with your own data
+      //uploadData = result;
     }
   }
 
