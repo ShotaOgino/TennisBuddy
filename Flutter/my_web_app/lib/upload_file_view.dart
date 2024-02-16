@@ -15,9 +15,9 @@ import 'package:logger/logger.dart';
 
 final minio = Minio(
   endPoint: dotenv.env['END_POINT']!,
-  region: dotenv.env['REGION']!, 
+  region: dotenv.env['REGION']!,
   accessKey: dotenv.env['ACCESS_KEY']!,
-  secretKey:dotenv.env['SECRET_KEY']!,
+  secretKey: dotenv.env['SECRET_KEY']!,
 );
 
 var logger = Logger();
@@ -50,7 +50,6 @@ class _UploadFileViewState extends State<UploadFileView> {
         await getFileBytesAndName(selectedFile.value);
 
     try {
-
       // List<int>をStream<Uint8List>に変換
       /* final stream = Stream<Uint8List> imageBytes = Stream.value(bucketName.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
  */
@@ -79,10 +78,11 @@ class _UploadFileViewState extends State<UploadFileView> {
     List<int> bytes;
     String fileName;
 
-    if (file is XFile) {
+    /* if (file is XFile) {
       bytes = await file.readAsBytes();
       fileName = file.name;
-    } else if (file is PlatformFile) {
+    } else  */
+    if (file is PlatformFile) {
       bytes = kIsWeb ? file.bytes! : await File(file.path!).readAsBytes();
       fileName = file.name;
     } else {
@@ -126,7 +126,7 @@ class _UploadFileViewState extends State<UploadFileView> {
     final double boxWidth = min(width * 0.8, 500);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Upload File')),
+      appBar: AppBar(title: Text('Upload Video to AWS S3')),
       body: Center(
         child: DropTarget(
           onDragDone: _onDragDone,
@@ -137,7 +137,7 @@ class _UploadFileViewState extends State<UploadFileView> {
             width: boxWidth,
             decoration: BoxDecoration(
               color:
-                  isDragging ? Colors.deepPurple.shade300 : Colors.deepPurple,
+                  isDragging ? Colors.green.shade300 : Colors.green,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
@@ -173,7 +173,8 @@ class _UploadFileViewState extends State<UploadFileView> {
                           SizedBox(width: 16),
                           ValueListenableBuilder<Object?>(
                             valueListenable: selectedFile,
-                            builder: (context, file, _) {
+                            //TO DO Implement the XFile case
+                            /* builder: (context, file, _) {
                               final fileName = file is XFile
                                   ? file.name
                                   : file is PlatformFile
@@ -182,6 +183,17 @@ class _UploadFileViewState extends State<UploadFileView> {
                               return Text(fileName,
                                   style: const TextStyle(
                                       color: Colors.deepPurple));
+                            }, */
+                            builder: (context, file, _) {
+                              // fileがPlatformFile型の場合のみファイル名を取得
+                              final fileName = file is PlatformFile
+                                  ? file.name
+                                  : "No file selected";
+
+                              // 取得したファイル名またはデフォルトメッセージをTextウィジェットで表示
+                              return Text(fileName,
+                                  style: const TextStyle(
+                                      color: Colors.green));
                             },
                           ),
                         ],
